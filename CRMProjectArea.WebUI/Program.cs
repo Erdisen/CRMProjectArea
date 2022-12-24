@@ -1,5 +1,8 @@
 using CRMProjectArea.BL.Abstract;
+using CRMProjectArea.BL.Concreate;
+using CRMProjectArea.DAL.Abstract;
 using CRMProjectArea.DAL.Concrete.EF.Context;
+using CRMProjectArea.DAL.Concrete.EF.Repository;
 using CRMProjectArea.Entities.Concrete;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +19,7 @@ builder.Services.AddDbContext<CRMContext>(options =>
 {
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DB"));
 });
-builder.Services.AddScoped<ICustomerManager, CustomerM>();
+
 builder.Services.AddDefaultIdentity<UserAccount>(options =>
 {
 
@@ -34,6 +37,12 @@ builder.Services.ConfigureApplicationCookie(config =>
 	config.SlidingExpiration = true;
 });
 
+//Manager
+builder.Services.AddScoped<ICustomerManager, CustomerManager>();
+
+
+//repo
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 var app = builder.Build();
 
